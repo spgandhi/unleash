@@ -5,12 +5,12 @@ import { IRoleValidation } from './access-service';
 import { createTestConfig } from '../../test/config/test-config';
 import { CUSTOM_ROOT_ROLE_TYPE } from '../util/constants';
 
-function getSetup(customRootRoles: boolean = false) {
+function getSetup(customRootRolesKillSwitch: boolean = true) {
     const config = createTestConfig({
         getLogger,
         experimental: {
             flags: {
-                customRootRoles: customRootRoles,
+                customRootRolesKillSwitch,
             },
         },
     });
@@ -152,7 +152,7 @@ test('should be able to validate and cleanup with additional properties', async 
 });
 
 test('user with custom root role should get a user root role', async () => {
-    const { accessService } = getSetup(true);
+    const { accessService } = getSetup(false);
     const customRootRole = await accessService.createRole({
         name: 'custom-root-role',
         description: 'test custom root role',

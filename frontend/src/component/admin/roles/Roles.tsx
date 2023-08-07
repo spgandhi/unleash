@@ -52,7 +52,7 @@ export const Roles = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState<IRole>();
 
-    const tabs = uiConfig.flags.customRootRoles
+    const tabs = !uiConfig.flags.customRootRolesKillSwitch
         ? [
               {
                   label: 'Root roles',
@@ -76,7 +76,8 @@ export const Roles = () => {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     const type =
-        !uiConfig.flags.customRootRoles || pathname.includes('project-roles')
+        uiConfig.flags.customRootRolesKillSwitch ||
+        pathname.includes('project-roles')
             ? PROJECT_ROLE_TYPE
             : ROOT_ROLE_TYPE;
 
@@ -170,7 +171,8 @@ export const Roles = () => {
                             element={
                                 <RolesTable
                                     type={
-                                        uiConfig.flags.customRootRoles
+                                        !uiConfig.flags
+                                            .customRootRolesKillSwitch
                                             ? ROOT_ROLE_TYPE
                                             : PROJECT_ROLE_TYPE
                                     }
